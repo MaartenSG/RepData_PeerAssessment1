@@ -1,0 +1,101 @@
+library()
+data <- read.csv("activity.csv")
+data
+str(activity)
+activity <- read.csv("activity.csv")
+?by
+by(activity, date, sum(is.na(activity$steps)))
+by(activity, activity$date, sum(is.na(activity$steps)))
+by(activity, activity$date, summary)
+activity[is.na(activity$steps),]
+summary(activity[is.na(activity$steps),])
+str(activity[is.na(activity$steps),])
+table(activity[is.na(activity$steps),])
+table(activity[is.na(activity$steps),date])
+table(activity[is.na(activity$steps),2])
+table(activity[is.na(activity$steps),2]) > 0
+sum(table(activity[is.na(activity$steps),2]) > 0)
+summary(activity[is.na(activity$steps),])
+str(activity[is.na(activity$steps),])
+8*288
+dat <- data.frame(V1 = 1:5, V3 = c(1, NA, 3, 4,  NA))
+dat$new <- dat$V3
+dat
+my.na <- is.na(dat$V3)
+my.na
+dat$new[my.na] <- dat$V1[my.na]
+dat
+head(activity)
+str(activity)
+activity
+head(activity)
+activity <- read.csv("activity.csv")
+library(ggplot2)#
+#
+sums <- tapply(activity$steps, activity$date, sum, na.rm=F)#
+sums <- data.frame(sumsteps=sums[!is.na(sums)] )    #remove days without steps data available#
+#
+ggplot(data=sums, aes(sumsteps)) + geom_histogram(binwidth=1000) + #
+    scale_y_continuous(breaks=seq(0,10,1)) + scale_x_continuous(breaks=seq(0,30000,2000)) +#
+    xlab("steps per day")
+actmean <- mean(sums$sumsteps)#
+actmedian <- median(sums$sumsteps)
+activity$interval <- as.factor(activity$interval)#
+#
+means <- tapply(activity$steps, activity$interval, mean, na.rm=T)#
+means <- data.frame(interval=as.numeric(names(means)), meansteps=as.vector(means))#
+#
+ggplot(data=means, aes(interval, meansteps)) + geom_line()#
+#
+intervalmax <- means[order(means$meansteps, decreasing =T)[1],1]
+library(dplyr)#
+activitynew <- left_join(activity, means, by = "interval")#
+my.na <- is.na(activitynew$steps)#
+activitynew$steps[my.na] <- activitynew$meansteps[my.na]
+activity$steps <- as.numeric(activity$steps)#
+activity$interval <- as.numeric(activity$interval)
+activitynew <- left_join(activity, means, by = "interval")
+my.na <- is.na(activitynew$steps)#
+activitynew$steps[my.na] <- activitynew$meansteps[my.na]
+head(activitynew)
+activity <- read.csv("activity.csv")
+means <- tapply(activity$steps, activity$interval, mean, na.rm=T)#
+means <- data.frame(interval=as.numeric(names(means)), meansteps=as.vector(means))
+means
+activity$steps <- as.numeric(activity$steps)#
+activity$interval <- as.numeric(activity$interval)
+activitynew <- left_join(activity, means, by = "interval")
+head(activitynew)
+my.na <- is.na(activitynew$steps)#
+activitynew$steps[my.na] <- activitynew$meansteps[my.na]
+head(activitynew)
+sumsnew <- tapply(activitynew$steps, activitynew$date, sum, na.rm=F)
+sumsnew
+sumsnew <- data.frame(sumsteps=sums[!is.na(sums)] )
+sumsnew
+sums <- tapply(activity$steps, activity$date, sum, na.rm=F)#
+sums <- data.frame(sumsteps=sums[!is.na(sums)] )    #remove days without steps data available
+sums
+dim(sums)
+dim(sumsnew)
+unique(activity$date)
+sums <- tapply(activity$steps, activity$date, sum, na.rm=F)
+sums
+dim(sums)
+sumsnew <- tapply(activitynew$steps, activitynew$date, sum, na.rm=F)
+sumsnew
+sumsnew <- as.data.frame(tapply(activitynew$steps, activitynew$date, sum, na.rm=F))
+sumsnew
+dim(sumsnew)
+ggplot(data=sumsnew, aes(sumsteps)) + geom_histogram(binwidth=1000) + #
+    scale_y_continuous(breaks=seq(0,10,1)) + scale_x_continuous(breaks=seq(0,30000,2000)) +#
+    xlab("steps per day")
+sumsnew <- as.data.frame(sumsteps=tapply(activitynew$steps, activitynew$date, sum, na.rm=F))
+sumsnew <- data.frame(sumsteps=tapply(activitynew$steps, activitynew$date, sum, na.rm=F))
+sumsnew
+ggplot(data=sumsnew, aes(sumsteps)) + geom_histogram(binwidth=1000) + #
+    scale_y_continuous(breaks=seq(0,10,1)) + scale_x_continuous(breaks=seq(0,30000,2000)) +#
+    xlab("steps per day")
+ggplot(data=sumsnew, aes(sumsteps)) + geom_histogram(binwidth=1000) + #
+    scale_y_continuous(breaks=seq(0,20,1)) + scale_x_continuous(breaks=seq(0,30000,2000)) +#
+    xlab("steps per day")
